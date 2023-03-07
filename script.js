@@ -96,6 +96,14 @@ const createUsernames = function (accounts) {
 
 createUsernames(accounts);
 
+const deposits = movements.filter((mov) => {
+  return mov > 0;
+});
+
+const withdrawals = movements.filter((mov) => {
+  return mov < 0;
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
