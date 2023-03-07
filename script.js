@@ -82,6 +82,20 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const createUsernames = function (accounts) {
+  accounts.forEach(function (account) {
+    accounts.username = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map((name) => {
+        return name[0];
+      })
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -92,6 +106,6 @@ displayMovements(account1.movements);
 //   ['GBP', 'Pound sterling'],
 // ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
