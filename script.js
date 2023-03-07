@@ -34,6 +34,7 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+// const movements = account1.movements;
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -82,6 +83,17 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+// acc -> Accumulator (is the sum of the elements looped through)
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => {
+    return acc + mov;
+  }, 0);
+
+  labelBalance.textContent = `${balance} €`;
+};
+
+calcDisplayBalance(account1.movements);
+
 const createUsernames = function (accounts) {
   accounts.forEach(function (account) {
     account.username = account.owner
@@ -96,14 +108,6 @@ const createUsernames = function (accounts) {
 
 createUsernames(accounts);
 
-const deposits = movements.filter((mov) => {
-  return mov > 0;
-});
-
-const withdrawals = movements.filter((mov) => {
-  return mov < 0;
-});
-
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -113,7 +117,5 @@ const withdrawals = movements.filter((mov) => {
 //   ['EUR', 'Euro'],
 //   ['GBP', 'Pound sterling'],
 // ]);
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
