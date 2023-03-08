@@ -82,12 +82,12 @@ const displayMovements = function (movements) {
 };
 
 // acc -> Accumulator (is the sum of the elements looped through)
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => {
+const calcDisplayBalance = function (account) {
+  account.balance = account.movements.reduce((acc, mov) => {
     return acc + mov;
   }, 0);
 
-  labelBalance.textContent = `${balance} €`;
+  labelBalance.textContent = `${account.balance} €`;
 };
 
 const calcDisplaySummary = function (account) {
@@ -122,6 +122,15 @@ const createUsernames = function (accounts) {
 };
 createUsernames(accounts);
 
+const updateUI = function (account) {
+  // Display movements
+  displayMovements(account.movements);
+  // Display balance
+  calcDisplayBalance(account);
+  // Display summary
+  calcDisplaySummary(account);
+};
+
 // Event handlers
 let currentAccount;
 
@@ -144,12 +153,30 @@ btnLogin.addEventListener('click', function (event) {
     inputLoginPin.value = '';
     inputLoginPin.blur();
 
-    // Display movements
-    displayMovements(currentAccount.movements);
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
-    // Display summary
-    calcDisplaySummary(currentAccount);
+    updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (event) {
+  event.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    (acc) => acc.username === inputTransferTo.value
+  );
+
+  inputTransferAmount.value = '';
+  inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    updateUI(currentAccount);
   }
 });
 
